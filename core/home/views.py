@@ -1,5 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.conf import settings
+from .models import *
+import random
+from .utils import send_email_to_client,send_email_with_attachment
 # Create your views here.
 
 peoples = [
@@ -15,9 +19,32 @@ text="""Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur q
 vegetables=['pumpkin','spinach','tomato']
 
 
+def send_email(request):
+    subject="This is a test Email from django server."
+    message="Please find the attached file with this mail."
+    recipient_list=['tempdjfgn@gmail.com']
+    file_path=f"{settings.BASE_DIR}/mailattach.txt"
+    # send_email_to_client()
+    send_email_with_attachment(subject,message,recipient_list,file_path)
+    return redirect('/')
+
+car_names = [
+    "Toyota Camry",
+    "Honda Civic",
+    "Ford Mustang",
+    "Chevrolet Silverado",
+    "Nissan Altima",
+    "BMW 3 Series",
+    "Mercedes-Benz C-Class",
+    "Volkswagen Golf",
+    "Tesla Model 3",
+    "Jeep Wrangler",
+]
+
 
 
 def home(request):
+    Car.objects.create(car_name=f"{car_names[random.randint(0,len(car_names))]} - model {random.randint(0,20)}")
     context={'page':'Django 2023 tutorial','peoples':peoples}
     return render(request,'./home/index.html',context)
 

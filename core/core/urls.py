@@ -36,6 +36,7 @@ urlpatterns = [
     path('see_marks/<student_id>',see_marks,name='see_marks'),
     path('contact',contact,name='contact'),
     path('admin/', admin.site.urls),
+    path('send_email',send_email,name='send_email')
 ]
 
 if settings.DEBUG:
